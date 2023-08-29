@@ -1,12 +1,41 @@
 package Model;
 
+import java.util.Date;
+
 public class ModelUsuario {
     private int id;
     private String email;
     private String senha;
     private String nome;
-    private String sobrenome;
+    private Date dataCriacao;
+    private Date dataAtualizacao;
     private String telefone;
+
+    private String papel;
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public String getPapel() {
+        return papel;
+    }
+
+    public void setPapel(String papel) {
+        this.papel = papel;
+    }
 
     public int getId() {
         return id;
@@ -40,13 +69,6 @@ public class ModelUsuario {
         this.nome = nome;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
-    }
 
     public String getTelefone() {
         return telefone;

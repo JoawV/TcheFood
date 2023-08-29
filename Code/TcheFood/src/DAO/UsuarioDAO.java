@@ -1,10 +1,10 @@
 package DAO;
 import Infra.ConexaoMYSQL;
 import Model.ModelUsuario;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UsuarioDAO {
@@ -12,20 +12,21 @@ public class UsuarioDAO {
         try {
         ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
         Connection con = conexaoMysql.obterConexao();
-        PreparedStatement stmt = null;
+        PreparedStatement ps = null;
 
-        stmt = con.prepareStatement
-                ("INSERT INTO tb_usuario(email, senha, nome, sobrenome, telefone) VALUES (?, ?, ?, ?, ?)");
+        ps = con.prepareStatement
+                ("INSERT INTO tb_usuario(nome, email,senha,papel,telefone) VALUES (?, ?, ?, ?,?)");
 
-        stmt.setString(1, user.getEmail());
-        stmt.setString(2, user.getSenha());
-        stmt.setString(3, user.getNome());
-        stmt.setString(4, user.getSobrenome());
-        stmt.setString(5, user.getTelefone());
+        ps.setString(1, user.getNome());
+        ps.setString(2, user.getEmail());
+        ps.setString(3, user.getSenha());
+        ps.setString(4, user.getPapel());
+        ps.setString(5, user.getTelefone());
 
-        stmt.executeUpdate();
 
-        stmt.close();
+        ps.executeUpdate();
+
+        ps.close();
         con.close();
 
         } catch(Exception e1){
@@ -33,61 +34,46 @@ public class UsuarioDAO {
         }
     }
 
-    public static void atualizar(ModelUsuario user) {
+
+
+//    public static void deletar(ModelUsuario user) {
+//        try {
+//        ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
+//        Connection con = conexaoMysql.obterConexao();
+//        PreparedStatement stmt = null;
+//
+//        stmt = con.prepareStatement("DELETE FROM tb_usuario WHERE email = ?");
+//
+//        stmt.setString(1, user.getEmail());
+//
+//        stmt.executeUpdate();
+//
+//        stmt.close();
+//        con.close();
+//
+//        } catch(Exception e3){
+//            throw new RuntimeException(e3);
+//        }
+//    }
+
+
+    public static ArrayList<ModelUsuario> cosnsultar(String nome) {
         try {
         ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
         Connection con = conexaoMysql.obterConexao();
-        PreparedStatement stmt = null;
+        PreparedStatement ps = null;
+        String sql = null;
 
-        stmt = con.prepareStatement("UPDATE tb_usuario SET email = ?, senha = ?, nome = ?, sobrenome = ?, telefone = ? WHERE id = ?");
-
-        stmt.setString(1, user.getEmail());
-        stmt.setString(2, user.getSenha());
-        stmt.setString(3, user.getNome());
-        stmt.setString(4, user.getSobrenome());
-        stmt.setString(5, user.getTelefone());
-        stmt.setInt(6, user.getId());
-
-        stmt.executeUpdate();
-
-        stmt.close();
-        con.close();
-
-        } catch(Exception e2){
-            throw new RuntimeException(e2);
+        if(nome.isEmpty()){
+            sql = "SELECT id, nome, email, senha, papel, telefone,dt_criacao,dt_atualizacao FROM tb_usuario";
+            ps = con.prepareStatement(sql);
+        }else{
+            sql = "SELECT id, nome, email, senha, papel, telefone,dt_criacao,dt_atualizacao FROM tb_usuario where nome ?";
+            ps = con.prepareStatement(sql);
         }
-    }
-
-    public static void deletar(ModelUsuario user) {
-        try {
-        ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
-        Connection con = conexaoMysql.obterConexao();
-        PreparedStatement stmt = null;
-
-        stmt = con.prepareStatement("DELETE FROM tb_usuario WHERE email = ?");
-
-        stmt.setString(1, user.getEmail());
-
-        stmt.executeUpdate();
-
-        stmt.close();
-        con.close();
-
-        } catch(Exception e3){
-            throw new RuntimeException(e3);
-        }
-    }
 
 
-    public static ArrayList<ModelUsuario> cosnsultar() {
-        try {
-        ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
-        Connection con = conexaoMysql.obterConexao();
-        PreparedStatement stmt = null;
-
-        stmt = con.prepareStatement("SELECT id, email, senha, nome, sobrenome, telefone FROM tb_usuario");
-
-        ResultSet rs = stmt.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
         ArrayList<ModelUsuario> usuarioList = new ArrayList<>();
 
@@ -95,11 +81,13 @@ public class UsuarioDAO {
             ModelUsuario modelUsuario = new ModelUsuario();
 
             modelUsuario.setId(rs.getInt("id"));
+            modelUsuario.setNome(rs.getString("nome"));
             modelUsuario.setEmail(rs.getString("email"));
             modelUsuario.setSenha(rs.getString("senha"));
-            modelUsuario.setNome(rs.getString("nome"));
-            modelUsuario.setSobrenome(rs.getString("sobrenome"));
+            modelUsuario.setPapel(rs.getString("papel"));
             modelUsuario.setTelefone(rs.getString("telefone"));
+            modelUsuario.setDataCriacao(rs.getDate("dt_criacao"));
+            modelUsuario.setDataAtualizacao(rs.getDate("dt_atualizacao"));
 
             usuarioList.add(modelUsuario);
         }
@@ -131,25 +119,25 @@ public class UsuarioDAO {
         }
     }
 
-    public static boolean isEmailValido(ModelUsuario user) {
-        try {
-            ConexaoMYSQL conexaoMsql = new ConexaoMYSQL();
-            Connection con = conexaoMsql.obterConexao();
-            PreparedStatement stmt = null;
-
-            stmt = con.prepareStatement("SELECT email FROM tb_usuario WHERE email = ?");
-
-            stmt.setString(1, user.getEmail());
-            ResultSet rs = stmt.executeQuery();
-
-            boolean emailExists = rs.next();
-
-            return emailExists;
-
-        } catch(Exception e6){
-            throw new RuntimeException(e6);
-        }
-    }
+//    public static boolean isEmailValido(ModelUsuario user) {
+//        try {
+//            ConexaoMYSQL conexaoMsql = new ConexaoMYSQL();
+//            Connection con = conexaoMsql.obterConexao();
+//            PreparedStatement stmt = null;
+//
+//            stmt = con.prepareStatement("SELECT email FROM tb_usuario WHERE email = ?");
+//
+//            stmt.setString(1, user.getEmail());
+//            ResultSet rs = stmt.executeQuery();
+//
+//            boolean emailExists = rs.next();
+//
+//            return emailExists;
+//
+//        } catch(Exception e6){
+//            throw new RuntimeException(e6);
+//        }
+//    }
 
 
     public static int getUsuarioPorId(int usuarioId) {
