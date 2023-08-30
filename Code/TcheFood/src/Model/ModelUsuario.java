@@ -1,5 +1,6 @@
 package Model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class ModelUsuario {
@@ -7,9 +8,17 @@ public class ModelUsuario {
     private String email;
     private String senha;
     private String nome;
-    private Date dataCriacao;
-    private Date dataAtualizacao;
+    private Timestamp dataCriacao;
+    private Timestamp dataAtualizacao;
     private String telefone;
+
+    public void setDataCriacao(Timestamp dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setDataAtualizacao(Timestamp dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
 
     private String papel;
 
@@ -17,17 +26,13 @@ public class ModelUsuario {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+
 
     public Date getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
-    }
+
 
     public String getPapel() {
         return papel;
