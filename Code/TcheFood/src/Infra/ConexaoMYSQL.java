@@ -7,8 +7,8 @@ public class ConexaoMYSQL {
 
     private String nomeServidor = "127.0.0.1";
     private String usuario = "root";
-    private String senha = "scar403";
-    private String nomeBancoDados = "tchefooddb";
+    private String senha = "root";
+    private String nomeBancoDados = "usuarios";
 
     public Connection obterConexao() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.cj.jdbc.Driver");

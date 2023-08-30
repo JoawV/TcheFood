@@ -57,7 +57,7 @@ public class UsuarioDAO {
 //    }
 
 
-    public static ArrayList<ModelUsuario> cosnsultar(String nome) {
+    public static ArrayList<ModelUsuario> consultar(String nome) {
         try {
         ConexaoMYSQL conexaoMysql = new ConexaoMYSQL();
         Connection con = conexaoMysql.obterConexao();
@@ -65,11 +65,12 @@ public class UsuarioDAO {
         String sql = null;
 
         if(nome.isEmpty()){
-            sql = "SELECT id, nome, email, senha, papel, telefone,dt_criacao,dt_atualizacao FROM tb_usuario";
+            sql = "SELECT id, nome, email, senha, papel, telefone,data_criacao,data_atualizacao FROM tb_usuarios";
             ps = con.prepareStatement(sql);
         }else{
-            sql = "SELECT id, nome, email, senha, papel, telefone,dt_criacao,dt_atualizacao FROM tb_usuario where nome ?";
+            sql = "SELECT id, nome, email, senha, papel, telefone,data_criacao,data_atualizacao FROM tb_usuarios where nome like ?";
             ps = con.prepareStatement(sql);
+            ps.setString(1, nome);
         }
 
 
@@ -86,8 +87,8 @@ public class UsuarioDAO {
             modelUsuario.setSenha(rs.getString("senha"));
             modelUsuario.setPapel(rs.getString("papel"));
             modelUsuario.setTelefone(rs.getString("telefone"));
-            modelUsuario.setDataCriacao(rs.getDate("dt_criacao"));
-            modelUsuario.setDataAtualizacao(rs.getDate("dt_atualizacao"));
+            modelUsuario.setDataCriacao(rs.getDate("data_criacao"));
+            modelUsuario.setDataAtualizacao(rs.getDate("data_atualizacao"));
 
             usuarioList.add(modelUsuario);
         }
