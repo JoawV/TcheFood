@@ -1,0 +1,6 @@
+drws\library\App.class
+drws\library\BancoDados.class
+drws\library\model\Autor.class
+drws\library\model\Leitor.class
+drws\library\model\Biblioteca.class
+drws\library\model\Livro.class
