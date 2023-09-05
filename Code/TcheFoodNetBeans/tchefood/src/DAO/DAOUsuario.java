@@ -157,7 +157,6 @@ public class DAOUsuario {
     }
             
             
-     
             public static int getUsuarioId(int usuarioId) {
         try {
         ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();

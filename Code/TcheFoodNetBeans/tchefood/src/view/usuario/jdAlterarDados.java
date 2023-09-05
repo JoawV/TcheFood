@@ -6,12 +6,12 @@ package view.usuario;
 
 import Model.ModelUsuario;
 import java.awt.Color;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.mindrot.jbcrypt.BCrypt;
 import static view.usuario.jdGerenciarUsuario.JTConsulta;
 
 /**
@@ -180,10 +180,6 @@ public class jdAlterarDados extends javax.swing.JDialog {
          String senhaOriginal = txtAlterarusuarioSenha.getText();
         
        
-        String salt = BCrypt.gensalt();
-        
-        // Use o BCrypt para criar o hash da senha com o salt
-        String hashedPassword = BCrypt.hashpw(senhaOriginal, salt);
         
         a.setId(codigo);
 
@@ -191,7 +187,11 @@ public class jdAlterarDados extends javax.swing.JDialog {
 
         a.setEmail(txtAlterarusuarioEmail.getText());
 
-        a.setSenha(hashedPassword);
+        try {
+            a.setSenha(jdcadastrarUsuario.Cripto(senhaOriginal));
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(jdAlterarDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         a.setPapel(txtAlterarusuarioPapel.getText());
 

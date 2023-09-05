@@ -6,12 +6,14 @@ package view.usuario;
 
 import Model.ModelUsuario;
 import java.awt.Color;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import org.mindrot.jbcrypt.BCrypt;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
 /**
@@ -206,23 +208,31 @@ public class jdcadastrarUsuario extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public static String Cripto(String senhaOriginal) throws NoSuchAlgorithmException{
+             MessageDigest md;
+              md = MessageDigest.getInstance("MD5");
+            BigInteger hash = new BigInteger(1,md.digest(senhaOriginal.getBytes()));
+            String senhaCripto = hash.toString(16);
+            return senhaCripto;
+    }
+    
     private void jbSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSalvarActionPerformed
         // TODO add your handling code here:
-
+           
          String senhaOriginal = txtCadastrarusuarioSenha.getText();
         
-        // Gere um salt aleatório (geralmente é armazenado junto com o hash)
-        String salt = BCrypt.gensalt();
         
-        // Use o BCrypt para criar o hash da senha com o salt
-        String hashedPassword = BCrypt.hashpw(senhaOriginal, salt);
         
   
        
             ModelUsuario a = new ModelUsuario();
             a.setNome(txtCadastrarusuarioNome.getText());
             a.setEmail(txtCadastrarusuarioEmail.getText());
-            a.setSenha(hashedPassword);
+        try {
+            a.setSenha(Cripto(senhaOriginal));
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(jdcadastrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
             a.setPapel(txtCadastrarusuarioPapel.getText());
             a.setTelefone(txtCadastrarusuarioTelefone.getText());
 

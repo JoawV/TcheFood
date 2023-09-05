@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class ConexaoMYSQL {
 
-    private String nomeServidor = "127.0.0.1";
+    private String nomeServidor = "localhost";
     private String usuario = "root";
     private String senha = "scar403";
     private String nomeBancoDados = "tchefooddb";

@@ -8,12 +8,12 @@ package view.pedidos;
  *
  * @author Vaio
  */
-public class jdMenuPedido extends javax.swing.JDialog {
+public class JDMenuPedido extends javax.swing.JDialog {
 
     /**
      * Creates new form jdMenuPedido
      */
-    public jdMenuPedido(java.awt.Frame parent, boolean modal) {
+    public JDMenuPedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
@@ -78,13 +78,13 @@ public class jdMenuPedido extends javax.swing.JDialog {
 
     private void jbCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastrarActionPerformed
 
-        jdCadastrarPedido a = new jdCadastrarPedido(null, true);
+        JDCadastrarPedido a = new JDCadastrarPedido(null, true);
         a.setVisible(true);
     }//GEN-LAST:event_jbCadastrarActionPerformed
 
     private void jbGerenciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGerenciarActionPerformed
-        // TODO add your handling code here:
-        jdGerenciarPedido a = new jdGerenciarPedido(null, true);
+        
+        JDGerenciarPedidos a = new JDGerenciarPedidos(null, true);
         a.setVisible(true);
     }//GEN-LAST:event_jbGerenciarActionPerformed
 
@@ -105,20 +105,21 @@ public class jdMenuPedido extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(jdMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(jdMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(jdMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(jdMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDMenuPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                jdMenuPedido dialog = new jdMenuPedido(new javax.swing.JFrame(), true);
+                JDMenuPedido dialog = new JDMenuPedido(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
