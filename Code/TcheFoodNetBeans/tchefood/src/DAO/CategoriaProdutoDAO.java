@@ -77,14 +77,13 @@ public class CategoriaProdutoDAO {
         }
     }
 
-    public static ArrayList<ModelCategoriaProduto> consultar() {
-        try {
+    public static ArrayList<ModelCategoriaProduto> consultar(String consulta) throws ClassNotFoundException, SQLException {
         ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
         Connection con = conexaoMYSQL.obterConexao();
         PreparedStatement stmt = null;
-
-        stmt = con.prepareStatement("SELECT id, descricao FROM tb_categoria_produto");
-
+        
+        stmt = con.prepareStatement("SELECT id, descricao FROM tb_categoria_produto WHERE descricao LIKE ?");
+        stmt.setString(1, "%" + consulta + "%");
         ResultSet rs = stmt.executeQuery();
 
         ArrayList<ModelCategoriaProduto> categoriaProduto = new ArrayList<>();
@@ -98,10 +97,6 @@ public class CategoriaProdutoDAO {
             categoriaProduto.add(modelCategoriaProduto);
         }
         return categoriaProduto;
-
-        } catch(Exception e4){
-            throw new RuntimeException(e4);
-        }
     }
 
     public static boolean isIdValido(ModelCategoriaProduto categoriaProduto) {
