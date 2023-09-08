@@ -23,12 +23,11 @@ public class ItensPedidoDAO {
             Connection con = conexaoMYSQL.obterConexao();
             PreparedStatement stmt = null;
 
-            stmt = con.prepareStatement("INSERT INTO tb_itens_pedido(pedido_id, produto_id, quantidade, status_item) VALUES (?, ?, ?, ?)");
+            stmt = con.prepareStatement("INSERT INTO tb_itens_pedido(pedido_id, produto_id, quantidade) VALUES (?, ?, ?)");
 
             stmt.setInt(1, item.getPedidoId().getId());
             stmt.setInt(2, item.getProdutoId().getId());
             stmt.setInt(3, item.getQuantidade());
-            stmt.setInt(4, item.getStatusItem());
 
             stmt.executeUpdate();
 
@@ -47,12 +46,11 @@ public class ItensPedidoDAO {
             Connection con = conexaoMYSQL.obterConexao();
             PreparedStatement stmt = null;
 
-            stmt = con.prepareStatement("UPDATE tb_itens_pedido SET pedido_id = ? produto_id = ?, quantidade = ?, status_item = ? WHERE id = ?");
+            stmt = con.prepareStatement("UPDATE tb_itens_pedido SET pedido_id = ? produto_id = ?, quantidade = ? WHERE id = ?");
 
             stmt.setInt(1, item.getPedidoId().getId());
             stmt.setInt(2, item.getProdutoId().getId());
             stmt.setInt(3, item.getQuantidade());
-            stmt.setInt(4, item.getStatusItem());
             stmt.setInt(5, item.getId());
 
             stmt.executeUpdate();
@@ -86,13 +84,13 @@ public class ItensPedidoDAO {
     }
 
 
-    public static ArrayList<ModelItensPedido> consultar() {
+    public static ArrayList<ModelItensPedido> consultar(String pesquisa) {
         try {
             ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
             Connection con = conexaoMYSQL.obterConexao();
             PreparedStatement stmt = null;
 
-            stmt = con.prepareStatement("SELECT id, pedido_id, produto_id, quantidade, status_item FROM tb_itens_pedido");
+            stmt = con.prepareStatement("SELECT id, pedido_id, produto_id, quantidade FROM tb_itens_pedido");
 
             ResultSet rs = stmt.executeQuery();
 
@@ -103,7 +101,6 @@ public class ItensPedidoDAO {
 
                 item.setId(rs.getInt("id"));
                 item.setQuantidade(rs.getInt("quantidade"));
-                item.setStatusItem(rs.getInt("status_item"));
 
                 ModelPedido pedidoId = new ModelPedido();
                 pedidoId.setId(rs.getInt("pedido_id"));

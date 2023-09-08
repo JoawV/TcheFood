@@ -7,16 +7,25 @@ package view.pedidos;
 import DAO.DAOUsuario;
 import DAO.FormaPagamentoDAO;
 import Model.ModelFormaPagamento;
+import Model.ModelItensPedido;
 import Model.ModelPedido;
 import Model.ModelUsuario;
 import java.awt.Color;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import view.itensPedidos.JDAlterarItensPedidos;
+import static view.itensPedidos.JDAlterarItensPedidos.JTFPedidoId;
+import static view.itensPedidos.JDAlterarItensPedidos.JTFProdutoId;
+import static view.itensPedidos.JDAlterarItensPedidos.JTFQuantidade;
+import org.jdesktop.swingx.prompt.PromptSupport;
+
 
 /**
  *
@@ -30,7 +39,12 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
     public JDCadastrarPedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+       
     }
+    
+    ArrayList<ModelFormaPagamento> listaPagamento = DAO.FormaPagamentoDAO.consultar();
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,8 +65,14 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
         JBSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        JTFFormaPagamentoID = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        CBFormaPagamento = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        JTItensPedidos = new javax.swing.JTable();
+        JTFPesquisar = new javax.swing.JTextField();
+        JBExcluir = new javax.swing.JButton();
+        JBAlterar = new javax.swing.JButton();
+        JBPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -142,26 +162,75 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(139, 295, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Forma do pagamento id:");
+        jLabel5.setText("Forma do pagamento:");
         jLabel5.setPreferredSize(new java.awt.Dimension(44, 20));
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 73, 242, -1));
-
-        JTFFormaPagamentoID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTFFormaPagamentoIDActionPerformed(evt);
-            }
-        });
-        JTFFormaPagamentoID.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                JTFFormaPagamentoIDKeyReleased(evt);
-            }
-        });
-        getContentPane().add(JTFFormaPagamentoID, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 99, 242, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Usuário id:");
         jLabel6.setPreferredSize(new java.awt.Dimension(44, 20));
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 19, 242, -1));
+
+        CBFormaPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBFormaPagamentoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(CBFormaPagamento, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 240, -1));
+        for(ModelFormaPagamento modelLista : listaPagamento){
+
+            CBFormaPagamento.addItem(modelLista);
+        }
+
+        JTItensPedidos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Itens id", "Pedido id", "Produto id", "Quantidade"
+            }
+        ));
+        jScrollPane1.setViewportView(JTItensPedidos);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 580, 300));
+
+        JTFPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTFPesquisarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(JTFPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 290, -1));
+        PromptSupport.setPrompt("Pesquisar por nome ...", JTFPesquisar);
+        PromptSupport.setFocusBehavior(PromptSupport.FocusBehavior.SHOW_PROMPT, JTFPesquisar);
+
+        JBExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/clean.png"))); // NOI18N
+        JBExcluir.setText("Excluir");
+        JBExcluir.setEnabled(false);
+        JBExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBExcluirActionPerformed(evt);
+            }
+        });
+        getContentPane().add(JBExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 350, -1, -1));
+
+        JBAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/paper.png"))); // NOI18N
+        JBAlterar.setText("Alterar");
+        JBAlterar.setEnabled(false);
+        JBAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBAlterarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(JBAlterar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 350, -1, -1));
+
+        JBPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
+        JBPesquisar.setText("Pesquisar");
+        JBPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JBPesquisarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(JBPesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 350, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -192,7 +261,6 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
     ModelPedido pedido = new ModelPedido();
     
     int usuarioId = Integer.parseInt(JTFUsuarioID.getText());
-    int formaPagamentoId = Integer.parseInt(JTFFormaPagamentoID.getText());
     int statusPagamento = Integer.parseInt(JTFStatusPagamento.getText());
     int statusPedido = Integer.parseInt(JTFStatusPedido.getText());
     double total = Double.parseDouble(JTFTotal.getText());
@@ -200,20 +268,17 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
     // Tentando converter.
     
     int usuario = DAOUsuario.getUsuarioId(usuarioId);
-    int formaPagamento = FormaPagamentoDAO.getFormaPagamentoId(formaPagamentoId);
    
 
     // Verificando se as instâncias não são nulas.
     
-    if (usuario != -1 || formaPagamento != -1) {
+    if (usuario != -1) {
         
         ModelUsuario usuario2 = new ModelUsuario();
         usuario2.setId(usuario);
         pedido.setUsuarioId(usuario2);
         
-        ModelFormaPagamento forma = new ModelFormaPagamento();
-        forma.setId(formaPagamento);
-        pedido.setFormaPagamentoId(forma);
+      
         
         pedido.setStatusPagamento(statusPagamento);
         pedido.setStatusPedido(statusPedido);
@@ -236,25 +301,15 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         JTFUsuarioID.setText(null);
-        JTFFormaPagamentoID.setText(null);
         JTFStatusPagamento.setText(null);
         JTFStatusPedido.setText(null);
         JTFTotal.setText(null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void JTFFormaPagamentoIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTFFormaPagamentoIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_JTFFormaPagamentoIDActionPerformed
-
     private void JTFUsuarioIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTFUsuarioIDKeyReleased
         verificacaoUsuarioId = validacao("\\d+", JTFUsuarioID);
         visibilidade();
     }//GEN-LAST:event_JTFUsuarioIDKeyReleased
-
-    private void JTFFormaPagamentoIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTFFormaPagamentoIDKeyReleased
-        verificacaoFormaPagamentoId = validacao("\\d+", JTFFormaPagamentoID);
-        visibilidade();
-    }//GEN-LAST:event_JTFFormaPagamentoIDKeyReleased
 
     private void JTFStatusPagamentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTFStatusPagamentoKeyReleased
         verificacaoStatusPagamento = validacao("\\d+", JTFStatusPagamento);
@@ -269,6 +324,131 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
         verificacaoTotal = validacao("[0-9]+(\\.[0-9]+)?", JTFTotal);
         visibilidade(); 
     }//GEN-LAST:event_JTFTotalKeyReleased
+
+    private void CBFormaPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBFormaPagamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CBFormaPagamentoActionPerformed
+
+    private void JTFPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTFPesquisarActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            String pesquisa = JTFPesquisar.getText();
+
+            ArrayList<ModelItensPedido> pedidos = DAO.ItensPedidoDAO.consultar(pesquisa);
+
+            if (pedidos.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nao há usuários cadastrados");
+                this.dispose();
+            } else {
+
+                JBAlterar.setEnabled(true);
+                JBExcluir.setEnabled(true);
+
+                DefaultTableModel modelo = (DefaultTableModel) JTItensPedidos.getModel();
+
+                modelo.setNumRows(0);
+
+                for (Model.ModelItensPedido modelItensPedido : DAO.ItensPedidoDAO.consultar(pesquisa)) {
+                    modelo.addRow(new Object[]{
+                        modelItensPedido.getId(), modelItensPedido.getPedidoId().getId(), modelItensPedido.getProdutoId().getId(),
+                        modelItensPedido.getQuantidade()
+
+                    });
+                }
+
+                JTItensPedidos.setModel(modelo);
+            }
+        } catch (Exception PESQUISAR) {
+            throw new RuntimeException(PESQUISAR);
+        }
+    }//GEN-LAST:event_JTFPesquisarActionPerformed
+
+    private void JBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBExcluirActionPerformed
+
+        try {
+
+            int linha = (int) (JTItensPedidos.getValueAt(JTItensPedidos.getSelectedRow(), 0));
+
+            ModelItensPedido model = new ModelItensPedido();
+            model.setId(linha);
+
+            ((DefaultTableModel) JTItensPedidos.getModel()).removeRow(JTItensPedidos.getSelectedRow());
+
+
+            if (DAO.ItensPedidoDAO.isIdValido(model)) {
+                ModelItensPedido itensPedido = new ModelItensPedido();
+                itensPedido.setId(linha);
+
+                DAO.ItensPedidoDAO.deletar(itensPedido);
+                JOptionPane.showMessageDialog(this, "Excluido com Sucesso " + model.getId());
+
+            } else {
+                System.err.println("Pedido não encontrado");
+            }
+
+        }catch(Exception EXCLUIR){
+            throw new RuntimeException(EXCLUIR);
+        }
+    }//GEN-LAST:event_JBExcluirActionPerformed
+
+    private void JBAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBAlterarActionPerformed
+
+        try {
+
+            JDAlterarItensPedidos alterar = new JDAlterarItensPedidos(null, true);
+
+            int selectedRowIndex = JTItensPedidos.getSelectedRow();
+
+            String pedidoId = (String) JTItensPedidos.getValueAt(selectedRowIndex, 1);
+            String produtoId = (String) JTItensPedidos.getValueAt(selectedRowIndex, 2);
+            String quantidade = (String) JTItensPedidos.getValueAt(selectedRowIndex, 3);
+            
+
+            JTFPedidoId.setText(pedidoId);
+            JTFProdutoId.setText(produtoId);
+            JTFQuantidade.setText(quantidade);
+
+            alterar.setVisible(true);
+
+        }catch(Exception GerenciarAlterar){
+            throw new RuntimeException(GerenciarAlterar);
+        }
+    }//GEN-LAST:event_JBAlterarActionPerformed
+
+    private void JBPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBPesquisarActionPerformed
+
+        try {
+
+            String pesquisa = JTFPesquisar.getText();
+
+            ArrayList<ModelItensPedido> dados = DAO.ItensPedidoDAO.consultar(pesquisa);
+
+            if (dados.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não há pedidos cadastrados");
+                this.dispose();
+            } else {
+
+                JBAlterar.setEnabled(true);
+
+                JBExcluir.setEnabled(true);
+
+                DefaultTableModel modelo = (DefaultTableModel) JTItensPedidos.getModel();
+
+                modelo.setNumRows(0);
+
+                for (Model.ModelItensPedido modelItensPedido : DAO.ItensPedidoDAO.consultar(pesquisa)) {
+                    modelo.addRow(new Object[]{
+                        modelItensPedido.getId(), modelItensPedido.getPedidoId().getId(), modelItensPedido.getProdutoId().getId(),
+                        modelItensPedido.getQuantidade()
+                    });
+                }
+                JTItensPedidos.setModel(modelo);
+            }
+        }catch(Exception PESQUISAR){
+            throw new RuntimeException(PESQUISAR);
+        }
+    }//GEN-LAST:event_JBPesquisarActionPerformed
     
     private boolean verificacaoUsuarioId;
     private boolean verificacaoFormaPagamentoId;
@@ -344,17 +524,23 @@ public class JDCadastrarPedido extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<ModelFormaPagamento> CBFormaPagamento;
+    private javax.swing.JButton JBAlterar;
+    private javax.swing.JButton JBExcluir;
+    private javax.swing.JButton JBPesquisar;
     private javax.swing.JButton JBSalvar;
-    private javax.swing.JTextField JTFFormaPagamentoID;
+    private javax.swing.JTextField JTFPesquisar;
     private javax.swing.JTextField JTFStatusPagamento;
     private javax.swing.JTextField JTFStatusPedido;
     private javax.swing.JTextField JTFTotal;
     private javax.swing.JTextField JTFUsuarioID;
+    public static javax.swing.JTable JTItensPedidos;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
