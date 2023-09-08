@@ -1,14 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DAO;
-import Infra.ConexaoMYSQL;
-import Model.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import Model.ModelFormaPagamento;
+import Model.ModelPedido;
+import Model.ModelUsuario;
+import infra.ConexaoMYSQL;
+import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author adriano
+ */
 public class PedidoDAO {
-
-    public static void salvar(ModelPedido pedido) {
+     public static void salvar(ModelPedido pedido) {
         try {
             ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
             Connection con = conexaoMYSQL.obterConexao();
@@ -18,9 +25,10 @@ public class PedidoDAO {
 
             stmt.setInt(1, pedido.getUsuarioId().getId());
             stmt.setInt(2, pedido.getFormaPagamentoId().getId());
-            stmt.setInt(3, pedido.getStatusPagamento());
-            stmt.setInt(4, pedido.getStatusPedido());
-            stmt.setDouble(5, pedido.getTotal());
+            stmt.setDate(3, (Date) pedido.getDataHora());
+            stmt.setInt(4, pedido.getStatusPagamento());
+            stmt.setInt(5, pedido.getStatusPedido());
+            stmt.setDouble(6, pedido.getTotal());
 
             stmt.executeUpdate();
 
@@ -42,7 +50,7 @@ public class PedidoDAO {
 
             stmt.setInt(1, pedido.getUsuarioId().getId());
             stmt.setInt(2, pedido.getFormaPagamentoId().getId());
-            stmt.setDate(3, pedido.getDataHora());
+            stmt.setDate(3, (Date) pedido.getDataHora());
             stmt.setInt(4, pedido.getStatusPagamento());
             stmt.setInt(5, pedido.getStatusPedido());
             stmt.setDouble(6, pedido.getTotal());
@@ -79,7 +87,7 @@ public class PedidoDAO {
     }
 
 
-    public static ArrayList<ModelPedido> consultar() {
+    public static ArrayList<ModelPedido> consultar(String lista) {
         try {
             ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
             Connection con = conexaoMYSQL.obterConexao();
@@ -160,9 +168,9 @@ public class PedidoDAO {
 
         return categoria;
 
-        } catch(Exception GETpedidoPORid){
-            throw new RuntimeException(GETpedidoPORid);
+        } catch(Exception e6){
+            throw new RuntimeException(e6);
         }
     }
-
+    
 }

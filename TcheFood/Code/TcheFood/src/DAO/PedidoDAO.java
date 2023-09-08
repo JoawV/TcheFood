@@ -18,9 +18,10 @@ public class PedidoDAO {
 
             stmt.setInt(1, pedido.getUsuarioId().getId());
             stmt.setInt(2, pedido.getFormaPagamentoId().getId());
-            stmt.setInt(3, pedido.getStatusPagamento());
-            stmt.setInt(4, pedido.getStatusPedido());
-            stmt.setDouble(5, pedido.getTotal());
+            stmt.setDate(3, pedido.getDataHora());
+            stmt.setInt(4, pedido.getStatusPagamento());
+            stmt.setInt(5, pedido.getStatusPedido());
+            stmt.setDouble(6, pedido.getTotal());
 
             stmt.executeUpdate();
 
@@ -160,8 +161,8 @@ public class PedidoDAO {
 
         return categoria;
 
-        } catch(Exception GETpedidoPORid){
-            throw new RuntimeException(GETpedidoPORid);
+        } catch(Exception e6){
+            throw new RuntimeException(e6);
         }
     }
 
