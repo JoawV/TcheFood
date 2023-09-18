@@ -1,11 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
+
 import java.util.Date;
 
+/**
+ *
+ * @author adriano
+ */
 public class ModelPedido {
+    
     private int id;
     private ModelUsuario usuarioId;
     private ModelFormaPagamento formaPagamentoId;
-    private java.sql.Date dataHora;
+    private Date dataHora;
     private int statusPagamento;
     private int statusPedido;
     private double total;
@@ -34,9 +44,14 @@ public class ModelPedido {
         this.formaPagamentoId = formaPagamentoId;
     }
 
-    public java.sql.Date getDataHora() {
+    public Date getDataHora() {
         return dataHora;
     }
+
+    public void setDataHora(Date dataHora) {
+        this.dataHora = dataHora;
+    }
+
 
     public void setDataHora(java.sql.Date dataHora) {
         this.dataHora = dataHora;
@@ -65,4 +80,5 @@ public class ModelPedido {
     public void setTotal(double total) {
         this.total = total;
     }
+    
 }

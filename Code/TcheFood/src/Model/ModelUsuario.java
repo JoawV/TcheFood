@@ -1,12 +1,33 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
 
+import java.util.Date;
+
+/**
+ *
+ * @author adriano
+ */
 public class ModelUsuario {
-    private int id;
+       private int id;
     private String email;
     private String senha;
     private String nome;
-    private String sobrenome;
+    private Date dataCriacao;
+    private Date dataAtualizacao;
     private String telefone;
+    private String papel;
+
+    public String getPapel() {
+        return papel;
+    }
+
+    public void setPapel(String papel) {
+        this.papel = papel;
+    }
+    
 
     public int getId() {
         return id;
@@ -40,13 +61,23 @@ public class ModelUsuario {
         this.nome = nome;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
+    public Date getDataCriacao() {
+        return dataCriacao;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
+
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+   
 
     public String getTelefone() {
         return telefone;
@@ -55,4 +86,7 @@ public class ModelUsuario {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+    
+    
+    
 }

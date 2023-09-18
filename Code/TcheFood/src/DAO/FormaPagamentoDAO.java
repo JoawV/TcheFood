@@ -1,18 +1,22 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DAO;
 
-import Infra.ConexaoMYSQL;
-import Model.ModelCategoriaProduto;
 import Model.ModelFormaPagamento;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Model.ModelPedido;
+import Model.ModelUsuario;
+import infra.ConexaoMYSQL;
+import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author adriano
+ */
 public class FormaPagamentoDAO {
-
-    public static void salvar(ModelFormaPagamento pagamento) {
+     public static void salvar(ModelFormaPagamento pagamento) {
         try {
         ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
         Connection con = conexaoMYSQL.obterConexao();
@@ -73,14 +77,14 @@ public class FormaPagamentoDAO {
         }
     }
 
-    public static ArrayList<ModelFormaPagamento> consultar() {
+    public static ArrayList<ModelFormaPagamento> consultar(String a) {
         try {
         ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
         Connection con = conexaoMYSQL.obterConexao();
         PreparedStatement stmt = null;
 
-        stmt = con.prepareStatement("SELECT id, descricao FROM tb_forma_pagamento");
-
+        stmt = con.prepareStatement("SELECT id, nome, descricao FROM tb_forma_pagamento");
+        
         ResultSet rs = stmt.executeQuery();
 
         ArrayList<ModelFormaPagamento> formaPagamento = new ArrayList<>();
@@ -89,6 +93,7 @@ public class FormaPagamentoDAO {
             ModelFormaPagamento modelFormaPagamento = new ModelFormaPagamento();
 
             modelFormaPagamento.setId(rs.getInt("id"));
+            modelFormaPagamento.setNome(rs.getString("nome"));
             modelFormaPagamento.setDescricao(rs.getString("descricao"));
 
             formaPagamento.add(modelFormaPagamento);
@@ -143,5 +148,78 @@ public class FormaPagamentoDAO {
             throw new RuntimeException(e6);
         }
     }
+    
+    public static ModelFormaPagamento obterFormaPagamento(int id)
+    {
+        ModelFormaPagamento formaPagamento = null;
+        
+        try 
+        {
+            ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
+            Connection conn = conexaoMYSQL.obterConexao();
+            PreparedStatement stmt = null;
+            
+            stmt = conn.prepareStatement("SELECT id, descricao FROM tb_forma_pagamento WHERE id = ?");
+            stmt.setInt(1, id);
+            stmt.executeQuery();
+            
+            ResultSet rs = stmt.getResultSet();
+            
+            if(rs.next())
+            {
+                formaPagamento = new ModelFormaPagamento();
 
+                formaPagamento.setId(rs.getInt("id"));
+                formaPagamento.setDescricao(rs.getString("descricao"));
+            }
+        } 
+        catch (ClassNotFoundException ex) 
+        {
+            System.out.println("Class not found");
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("SQL Exception");
+        }
+        
+        return formaPagamento;
+    }
+    
+    public static ArrayList<ModelFormaPagamento> obterTodasFormasPagamento()
+    {
+        ArrayList<ModelFormaPagamento> formasPagamento = new ArrayList<>();
+        
+        try 
+        {
+            ConexaoMYSQL conexaoMYSQL = new ConexaoMYSQL();
+            Connection conn = conexaoMYSQL.obterConexao();
+            PreparedStatement stmt = null;
+            
+            stmt = conn.prepareStatement("SELECT id, descricao FROM tb_forma_pagamento");
+            stmt.executeQuery();
+            
+            ResultSet rs = stmt.getResultSet();
+            
+            while(rs.next())
+            {
+                ModelFormaPagamento formaPagamento = new ModelFormaPagamento();
+
+                formaPagamento.setId(rs.getInt("id"));
+                formaPagamento.setDescricao(rs.getString("descricao"));
+                
+                formasPagamento.add(formaPagamento);
+            }
+        } 
+        catch (ClassNotFoundException ex) 
+        {
+            System.out.println("Class not found");
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("SQL Exception");
+        }
+        
+        return formasPagamento;
+    }
+    
 }

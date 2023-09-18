@@ -1,11 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
 
+/**
+ *
+ * @author adriano
+ */
 public class ModelItensPedido {
-    private int id;
+    
+     private int id;
     private ModelPedido pedidoId;
-    private ModelProduto produtoId;
+    private ProdutoModel produtoId;
     private int quantidade;
-    private int statusItem;
+    private String opcional;
 
     public int getId() {
         return id;
@@ -23,11 +32,11 @@ public class ModelItensPedido {
         this.pedidoId = pedidoId;
     }
 
-    public ModelProduto getProdutoId() {
+    public ProdutoModel getProdutoId() {
         return produtoId;
     }
 
-    public void setProdutoId(ModelProduto produtoId) {
+    public void setProdutoId(ProdutoModel produtoId) {
         this.produtoId = produtoId;
     }
 
@@ -39,11 +48,15 @@ public class ModelItensPedido {
         this.quantidade = quantidade;
     }
 
-    public int getStatusItem() {
-        return statusItem;
+    public String getOpcional() 
+    {
+        return opcional;
     }
 
-    public void setStatusItem(int statusItem) {
-        this.statusItem = statusItem;
+    public void setOpcional(String opcional) 
+    {
+        this.opcional = opcional;
     }
+
+
 }
